@@ -1,0 +1,28 @@
+body {
+    max-height: 200px;
+    width: 328px;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+}
+
+.new_task {
+    display: block;
+    margin: 0 auto;
+    font-size: 18px;
+    border: none;
+    border-bottom: 1px solid gray;
+    width: 90%;
+    text-align: center;
+    resize: vertical;
+}
+
+.add_btn {
+    display: block;
+    margin: 10px 5% 10px auto;
+    font-size: 18px;
+    padding: 5px 15px;
+}

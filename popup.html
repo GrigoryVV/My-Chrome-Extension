@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="popup.css">
     <title>My Chrome Extension</title>
 </head>
 <body>
 
     <header>
-        <h1>To Do</h1>
+        <h1 class="name">To Do</h1>
     </header>
-    <ul>
-        <li>
-            <span>Task 1</span><input type="checkbox" name="done">
-        </li>
-        <li>
-            <span>Task 2</span><input type="checkbox" name="done">
-        </li>
-    </ul>
-    <footer>
-        <input type="text"><button>add</button>
-    </footer>
+    <div>
+        <textarea class="new_task" placeholder="What do you want to do?"></textarea>
+        <button class="add_btn">add</button>
+    </div>
 
     <script src="popup.js"></script>
 </body>
