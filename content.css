@@ -1,0 +1,35 @@
+.container_MY_EXTENSION-ABC {
+    background-color: #dadada;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    padding: 15px;
+    max-width: 300px;
+    z-index: 10000;
+    position: fixed;
+    left: 20px;
+    bottom: 100px
+}
+
+.container_MY_EXTENSION-ABC > h1 {
+    font-size: 24px;
+}
+
+.task_element_MY_EXTENSION-ABC {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #999;
+}
+
+.task_element_MY_EXTENSION-ABC > span {
+    display: block;
+    font-size: 16px;
+    word-break: break-all;
+}
+
+.done_button_MY_EXTENSION-ABC {
+    display: block;
+    margin-left: 15px;
+    background-color: rgb(162, 250, 75);
+    font-size: 16px;
+}
