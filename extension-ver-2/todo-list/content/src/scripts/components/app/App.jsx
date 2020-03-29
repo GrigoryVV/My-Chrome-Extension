@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ActiveTodo from '../ActiveTodo/ActiveTodo'
 import {connect} from 'react-redux';
 
 const styles = {
@@ -9,7 +10,8 @@ const styles = {
     left: '50px',
     width: '300px',
     backgroundColor: '#dadada',
-    padding: '20px'
+    padding: '20px',
+    boxShadow: '3px 3px 5px rgba(0,0,0,0.5)'
   },
   list: {
     listStyle: 'none',
@@ -21,24 +23,81 @@ const styles = {
   },
   listItem: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   }
 }
 
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      subTask: ''
+    }
+
     this.handleToggleTodoDone = this.handleToggleTodoDone.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleOpenActive = this.handleOpenActive.bind(this);
+    this.setSubTask = this.setSubTask.bind(this)
+    this.addSubTask = this.addSubTask.bind(this)
+    this.doneSubTask = this.doneSubTask.bind(this)
   }
 
-  handleToggleTodoDone(id) {
+  setSubTask(value) {
+    this.setState({
+      subTask: value
+    })
+  }
+  addSubTask(subTask, todoId) {
+    this.props.dispatch({
+      type: 'ADD_SUB_TASK',
+      payload: {subTask, todoId}
+    })
+  }
+  doneSubTask(subTask, todoId) {
+    this.props.dispatch({
+      type: 'DONE_SUB_TASK',
+      payload: {subTask, todoId}
+    })
+  }
+
+  handleToggleTodoDone(id, e) {
+    e.stopPropagation();
     this.props.dispatch({
       type: 'TOGGLE_TODO_DONE',
       payload: id
     })
   }
+  handleDelete(id) {
+    this.props.dispatch({
+      type: 'DELETE_TODO',
+      payload: id
+    })
+  }
+  handleOpenActive(id) {
+    this.props.dispatch({
+      type: 'OPEN_ACTIVE_TODO',
+      payload: id
+    })
+  }
 
   render() {
+    if (this.props.activeTodo) {
+      return (
+        <div style={styles.container}>
+          <ActiveTodo 
+            todo={this.props.todos.find(todo => (
+              todo.id === this.props.activeTodo
+            ))} 
+            addSubTask={this.addSubTask}
+            doneSubTask={this.doneSubTask}
+            subTask={this.state.subTask}
+            setSubTask={this.setSubTask}
+          />
+        </div>
+      );
+    }
+
     return (
       <div style={styles.container}>
         <h1>TODO list</h1>
@@ -47,10 +106,13 @@ class App extends Component {
           <ul style={styles.list}>
             {this.props.todos.filter(todo => !todo.done).map(todo => {
               return (
-                <li style={styles.listItem} key={todo.id}>
+                <li style={styles.listItem}
+                  key={todo.id}
+                  onClick={(e) => this.handleOpenActive(todo.id)}
+                >
                   <span>{todo.value}</span>
                   <button 
-                    onClick={() => this.handleToggleTodoDone(todo.id)}
+                    onClick={(e) => this.handleToggleTodoDone(todo.id, e)}
                   >
                     done
                   </button>
@@ -64,11 +126,18 @@ class App extends Component {
               return (
                 <li style={styles.listItem} key={todo.id}>
                   <span style={styles.doneTasks}>{todo.value}</span>
-                  <button 
-                    onClick={() => this.handleToggleTodoDone(todo.id)}
-                  >
-                    restart
-                  </button>
+                  <span>
+                    <button 
+                      onClick={(e) => this.handleToggleTodoDone(todo.id, e)}
+                    >
+                      restart
+                    </button>
+                    <button 
+                      onClick={() => this.handleDelete(todo.id)}
+                    >
+                      delete
+                    </button>
+                  </span>
                 </li>
               );
             })}
@@ -81,7 +150,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    todos: state.todo.todos
+    todos: state.todo.todos,
+    activeTodo: state.todo.activeTodo
   };
 };
 

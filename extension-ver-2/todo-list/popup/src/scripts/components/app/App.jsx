@@ -18,6 +18,7 @@ class App extends Component {
           id: (new Date).toString(),
           value: this.state.newTodo,
           done: false,
+          subTasks: [],
         }
       });
       this.setState({
